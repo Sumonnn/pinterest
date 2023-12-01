@@ -1,28 +1,25 @@
 <%- include('../partiels/header.ejs') %>
 
 
-  <link rel="stylesheet" href="/stylesheets/Authentigate/signup.css">
+  <link rel="stylesheet" href="/stylesheets/Authentigate/signin.css">
 
   <div class="container">
     <div class="content">
       <!--pinterest logo-->
       <img src="https://i.pinimg.com/originals/d3/d1/75/d3d175e560ae133f1ed5cd4ec173751a.png" alt="pin logo"
         class="img1" />
-      <p class="header">Sign Up </p>
+      <p class="header">Sign in </p>
 <!--  -->
-      <form action="/signup" method="post">
-        <input type="text" required placeholder="fullname" name="fullname" class="detail" />
-        <br>
-        <input type="email" required placeholder="email" name="email" class="detail" />
-        <br />
+      <form action="/signin" method="post">
+
         <input type="text" required placeholder="username" name="username" class="detail" />
         <br />
         <input type="password" required placeholder="Password" name="password" class="detail" />
         <br />
 
-        <!-- <a class="forget" href="/forget">Forgot your password?</a> -->
+        <a class="forget" href="/forget">Forgot your password?</a>
 
-        <button class="btn int">Sign-up</button>
+        <button class="btn int">Sign-in</button>
       </form>
 <!--  -->
       <p class="or">OR</p>
@@ -37,7 +34,7 @@
     </div>
   </div>
   
-  <a href="/signin"><div class="upbtn">Login</div></a>
+  <a  href="/"><div class="upbtn">Sign-up</div></a>
 
 
 <%- include('../partiels/footer.ejs') %>
