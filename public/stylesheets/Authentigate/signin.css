@@ -12,7 +12,7 @@ body {
 .container {
     background-color: white;
     width: 480px;
-    height: 550px;
+    height: 580px;
     position: absolute;
     margin: auto;
     top: 0%;
@@ -176,4 +176,9 @@ form{
 }
 a{
     text-decoration: none;
+}
+.error{
+    color: #df0812;
+    font-weight:500;
+    text-transform: capitalize; 
 }

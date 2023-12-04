@@ -1,21 +1,44 @@
 <%- include('../partiels/header.ejs') %>
-<link rel="stylesheet" href="/stylesheets/Pinterest/profile.css">
+    <link rel="stylesheet" href="/stylesheets/Pinterest/profile.css">
 
-<!--  -->
-    <div class="container">
-        <div class="card">
+    <!--  -->
+    <div class="containerpers">
+        <div class="cardpers">
             <div class="profile-picture">
                 <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     alt="Profile Picture">
             </div>
-            <h2 class="name">Full Name</h2>
-            <h3 class="username">@username</h3>
+            <h2 class="name">
+                <%= user.fullname %>
+            </h2>
+            <h3 class="username">@<%= user.username %>
+            </h3>
             <p class="tagline">some tagline</p>
             <p class="description">some description</p>
-            <a href="#" class="button">Account settings</a>
+            <a href="/signout" class="button">Sign Out</a>
+            <!--  -->
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="text" placeholder="postText" name="postText">
+                <input type="file" name="file">
+                <button type="submit">upload</button>
+            </form>
+            <!--  -->
+        </div>
+    </div>
+    <!--  -->
+    <div class="container">
+        <div class="cards">
+            <% user.posts.forEach((post)=> { %>
+                <div class="card" style="width: 18rem;">
+                    <img src="/images/uploads/<%= post.image %>"
+                        class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= post.postText %></h5>
+                    </div>
+                </div>
+                <% }) %>
         </div>
     </div>
 
-<!--  -->
 
     <%- include('../partiels/footer.ejs') %>
