@@ -12,9 +12,15 @@ body {
 }
 .cards{
     display: flex;
+    /* flex-direction: column; */
     flex-wrap: wrap;
     gap: 1vw;
+    background-color: red;
     align-items: start;
+}
+.card{
+    height: fit-content !important;
+    background-color: aqua !important;
 }
 .containerpers {
     max-width: 90vw;

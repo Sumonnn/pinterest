@@ -10,6 +10,14 @@ const LocalStrategy = require("passport-local");
 passport.use(new LocalStrategy(userModel.authenticate()));
 
 //multer code
+router.post('/fileupload', isLoggedIn, upload.single('image'), async function (req, res) {
+  const user = await userModel.findOne({ username: req.session.passport.user })
+  user.dp = req.file.filename;
+  await user.save();
+  res.redirect('/profile');
+});
+
+
 router.post('/upload', isLoggedIn, upload.single('file'), async function (req, res) {
   if (!req.file) {
     return res.status(400).send('No files were given.');
@@ -29,17 +37,20 @@ router.post('/upload', isLoggedIn, upload.single('file'), async function (req, r
 router.get('/', function (req, res) {
   res.render('Authentigate/signup.ejs');
 });
+router.get('/add', isLoggedIn, async function (req, res) {
+  const user = await userModel.findOne({ username: req.session.passport.user });
+  res.render('Pinterest/add.ejs', { user: user });
+});
 router.get('/signin', function (req, res) {
   res.render('Authentigate/signin.ejs', { err: req.flash('error') });
 });
-router.get('/feed', (req, res) => {
-  // res.render('Pinterest/feed.ejs');
-})
+
+
+//profile
 router.get('/profile', isLoggedIn, async function (req, res) {
   try {
-    const user = await userModel.findOne({
-      username: req.session.passport.user,
-    }).populate('posts');
+    const user = await userModel.findOne({ username: req.session.passport.user }).populate('posts');
+    // console.log(user);
     res.render('Pinterest/profile.ejs', {
       user: user,
     });
@@ -47,14 +58,41 @@ router.get('/profile', isLoggedIn, async function (req, res) {
     res.send(error);
   }
 });
+// all post show
+router.get('/show/posts', isLoggedIn, async function (req, res) {
+  try {
+    const user = await userModel.findOne({ username: req.session.passport.user }).populate('posts');
+    // console.log(user);
+    res.render('Pinterest/show.ejs', {
+      user: user,
+    });
+  } catch (error) {
+    res.send(error);
+  }
+});
 
+// feed
+router.get('/feed', isLoggedIn, async function (req, res) {
+  try {
+    const user = await userModel.findOne({ username: req.session.passport.user });
+    const posts = await postModel.find()
+    .populate('user');
+    console.log(user);
+    res.render('Pinterest/feed.ejs', {
+      user: user,
+      posts:posts,
+    });
+  } catch (error) {
+    res.send(error);
+  }
+});
 
 // SIGNUP CODE
 router.post("/signup", async function (req, res, next) {
   try {
     const { username, email, fullname } = req.body;
     const userData = new userModel({ username, email, fullname });
-    console.log(userData);
+    // console.log(userData);
     await userModel.register(userData, req.body.password);
     res.redirect("/signin");
   } catch (error) {
